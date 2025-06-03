@@ -10,6 +10,7 @@ app.use(cors({
   origin: [
     'http://localhost:3000',      // Default React dev server
     'http://localhost:3001',      // Your current dev server port
+    'https://farm-product-8xfdixvpf-krishsaini688-gmailcoms-projects.vercel.app', // Your deployed frontend URL
     'https://farm-product-app-flax.vercel.app' // Your deployed frontend URL
   ]
 }));
