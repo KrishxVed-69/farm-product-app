@@ -3,6 +3,16 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 const app = express();
 const PORT = process.env.PORT || 3000;
+const cors = require('cors');
+
+// Allow requests from your local frontend and deployed frontend
+app.use(cors({
+  origin: [
+    'http://localhost:3000',      // Default React dev server
+    'http://localhost:3001',      // Your current dev server port
+    'https://farm-product-app-flax.vercel.app' // Your deployed frontend URL
+  ]
+}));
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running at http://0.0.0.0:${PORT}`);
