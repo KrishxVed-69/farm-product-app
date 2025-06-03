@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3000;
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:3001',
-  'https://farm-product-8xfdixvpf-krishsaini688-gmailcoms-projects.vercel.app',
+  'https://farm-product-eno6rkjwx-krishsaini688-gmailcoms-projects.vercel.app',
   'https://farm-product-app-flax.vercel.app'
   // add any other deployed frontend URLs here
 ];
