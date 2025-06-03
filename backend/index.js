@@ -5,17 +5,15 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// === CORS SETUP ===
-// For development and production: allow local and deployed frontend
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:3001',
   'https://farm-product-8xfdixvpf-krishsaini688-gmailcoms-projects.vercel.app',
   'https://farm-product-app-flax.vercel.app'
+  // add any other deployed frontend URLs here
 ];
 app.use(cors({
   origin: function(origin, callback) {
-    // Allow requests with no origin (like mobile apps, curl, etc.)
     if (!origin) return callback(null, true);
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
@@ -24,6 +22,7 @@ app.use(cors({
     }
   }
 }));
+
 
 // === MIDDLEWARE ===
 app.use(bodyParser.json());
