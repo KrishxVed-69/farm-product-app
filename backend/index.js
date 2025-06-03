@@ -5,16 +5,16 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// === CORS SETUP ===
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:3001',
   'https://farm-product-app-krishsaini688-gmailcoms-projects.vercel.app',
   'https://farm-product-app-flax.vercel.app'
-  // add any other deployed frontend URLs here
 ];
 app.use(cors({
   origin: function(origin, callback) {
-    if (!origin) return callback(null, true);
+    if (!origin) return callback(null, true); // Allow non-browser tools
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
     } else {
@@ -22,9 +22,8 @@ app.use(cors({
     }
   }
 }));
+app.options('*', cors()); // Handle preflight requests
 
-
-// === MIDDLEWARE ===
 app.use(bodyParser.json());
 
 // === FILE HELPERS ===
@@ -36,22 +35,21 @@ function readProducts() {
     return [];
   }
 }
-
 function writeProducts(products) {
   fs.writeFileSync('products.json', JSON.stringify(products, null, 2));
 }
 
 // === ROUTES ===
 
-// Add a new product
+// Add a new product (with support for custom id)
 app.post('/product', (req, res) => {
-  const { name, type, price, quantity } = req.body;
+  const { name, type, price, quantity, id } = req.body;
   if (!name || !type || typeof price !== 'number' || typeof quantity !== 'number') {
     return res.status(400).json({ error: 'Invalid input. Required: name, type (string); price, quantity (number).' });
   }
   const products = readProducts();
   const newProduct = {
-    id: Date.now().toString(),
+    id: id && id.trim() !== '' ? id : Date.now().toString(),
     name,
     type,
     price,
@@ -99,7 +97,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Something went wrong!' });
 });
 
-// === START SERVER (only once!) ===
+// === START SERVER ===
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running at http://0.0.0.0:${PORT}`);
 });
